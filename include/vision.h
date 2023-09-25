@@ -1,20 +1,25 @@
 #ifndef KINOVA_VISION_H
 #define KINOVA_VISION_H
 
-extern "C" {
+//extern "C" {
 #include <gst/gst.h>
 #include <gst/app/gstappsink.h>
-}
+//}
 
-#include <ros/ros.h>
 
-#include <image_transport/image_transport.h>
-#include <camera_info_manager/camera_info_manager.h>
 
-#include <sensor_msgs/Image.h>
-#include <sensor_msgs/image_encodings.h>
-#include <sensor_msgs/CameraInfo.h>
-#include <sensor_msgs/SetCameraInfo.h>
+//#include <ros/ros.h>
+#include "rclcpp/rclcpp.hpp"
+
+//#include <image_transport/image_transport.h>
+#include <image_transport/image_transport.hpp>
+#include <camera_info_manager/camera_info_manager.hpp>
+
+//#include "sensor_msgs/Image.h"
+#include "sensor_msgs/msg/image.hpp"
+#include "sensor_msgs/image_encodings.hpp"
+//#include "sensor_msgs/msg/CameraInfo.h"
+//#include "sensor_msgs/msg/SetCameraInfo.hpp"
 
 namespace CameraTypes
 {
@@ -29,7 +34,8 @@ enum CameraType
 class Vision
 {
 public:
-  Vision(ros::NodeHandle nh_camera, ros::NodeHandle nh_private);
+  Vision(std::shared_ptr<rclcpp::Node> nh_camera, std::shared_ptr<rclcpp::Node> nh_private);
+  //Vision(ros::NodeHandle nh_camera, ros::NodeHandle nh_private);
   ~Vision();
 
   void run();
@@ -46,8 +52,12 @@ private:
 
 private:
   // ROS elements
-  ros::NodeHandle nh_;
-  ros::NodeHandle nh_private_;
+  //ros::NodeHandle nh_;
+  //ros::NodeHandle nh_private_;
+  std::shared_ptr<rclcpp::Node> nh_;
+  std::shared_ptr<rclcpp::Node> nh_private_;
+  //auto nh_;
+  //auto nh_private_;
   camera_info_manager::CameraInfoManager camera_info_manager_;
   image_transport::CameraPublisher camera_publisher_;
   image_transport::ImageTransport image_transport_;

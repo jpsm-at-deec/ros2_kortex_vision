@@ -1,7 +1,13 @@
 
 #include "vision.h"
 
-#include <ros/ros.h>
+extern "C" {
+#include "gst/gst.h"
+#include "gst/app/gstappsink.h"
+}
+
+//#include <ros/ros.h>
+#include "rclcpp/rclcpp.hpp"
 #include <signal.h>
 
 Vision* g_vision = NULL;
@@ -13,13 +19,18 @@ void sigintHandler(int signal)
     g_vision->quit();
   }
 
-  ros::shutdown();
+  //ros::shutdown();
+  rclcpp::shutdown();
 }
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "kinova_vision", ros::init_options::NoSigintHandler);
-  ros::NodeHandle nh, nh_private("~");
+  //ros::init(argc, argv, "kinova_vision", ros::init_options::NoSigintHandler);
+  //ros::NodeHandle nh, nh_private("~");
+
+  rclcpp::init(argc, argv);
+  auto nh = rclcpp::Node::make_shared("ros_kortex_vision");
+  auto nh_private = rclcpp::Node::make_shared("~");
 
   // Override the default ros sigint handler.
   signal(SIGINT, sigintHandler);
