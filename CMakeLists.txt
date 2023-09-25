@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 
-project(ros_kortex_vision)
+project(ros2_kortex_vision)
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
