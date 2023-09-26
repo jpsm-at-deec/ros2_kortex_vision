@@ -91,11 +91,11 @@ add_executable(ros_kortex_vision_node src/vision_node.cpp)
 target_compile_features(ros_kortex_vision PUBLIC cxx_std_17)
 target_include_directories(ros_kortex_vision PUBLIC
   ${PROJECT_SOURCE_DIR}/include
-  include/ros_kortex_vision
+  include/ros2_kortex_vision
   ${GSTREAMER_INCLUDE_DIRECTORIES}
   ${GST_APP_LIBRARIES}
 )
-target_link_libraries(ros_kortex_vision_node ros_kortex_vision
+target_link_libraries(ros2_kortex_vision_node ros2_kortex_vision
   ${GSTREAMER_LIBRARIES}
   ${GST_APP_LIBRARIES}
   #rclcpp::rclcpp
@@ -114,7 +114,7 @@ target_link_libraries(ros_kortex_vision_node ros_kortex_vision
 #ament_target_dependencies(ros_kortex_vision PUBLIC ${THIS_PACKAGE_INCLUDE_DEPENDS})
 
 #ament_export_include_directories(include/ros_kortex_vision)
-ament_target_dependencies(ros_kortex_vision
+ament_target_dependencies(ros2_kortex_vision
   rclcpp
   std_msgs
   image_transport
@@ -128,14 +128,20 @@ ament_package()
 # Install
 install(
   DIRECTORY include/
-  DESTINATION include/ros_kortex_vision
+  DESTINATION include/ros2_kortex_vision
 )
-#install(TARGETS ros_kortex_vision ros_kortex_vision_node
-#wally   EXPORT export_ros_kortex_vision
-#wally   ARCHIVE DESTINATION lib
-#wally   LIBRARY DESTINATION lib
-#wally   RUNTIME DESTINATION bin
-#wally )
+install(TARGETS ros2_kortex_vision ros2_kortex_vision_node
+  EXPORT export_ros2_kortex_vision
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+install(
+  DIRECTORY launch/calibration
+  DESTINATION share/launch
+  FILES_MATCHING PATTERN "*.ini"
+)
+
 #wally install(
 #wally   DIRECTORY launch/calibration
 #wally   DESTINATION share/launch
