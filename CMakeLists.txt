@@ -86,10 +86,10 @@ find_package(camera_info_manager REQUIRED)
 #target_include_directories(Car Public "${PROJECT_BINARY_DIR}") 
 
 # A library to detect a realtime kernel and set thread priority, if one is found
-add_library(ros_kortex_vision src/vision.cpp)
-add_executable(ros_kortex_vision_node src/vision_node.cpp)
-target_compile_features(ros_kortex_vision PUBLIC cxx_std_17)
-target_include_directories(ros_kortex_vision PUBLIC
+add_library(ros2_kortex_vision src/vision.cpp)
+add_executable(ros2_kortex_vision_node src/vision_node.cpp)
+target_compile_features(ros2_kortex_vision PUBLIC cxx_std_17)
+target_include_directories(ros2_kortex_vision PUBLIC
   ${PROJECT_SOURCE_DIR}/include
   include/ros2_kortex_vision
   ${GSTREAMER_INCLUDE_DIRECTORIES}
@@ -131,7 +131,6 @@ install(
   DESTINATION include/ros2_kortex_vision
 )
 install(TARGETS ros2_kortex_vision ros2_kortex_vision_node
-  EXPORT export_ros2_kortex_vision
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
