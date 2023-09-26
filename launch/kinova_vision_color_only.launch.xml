@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Launch file ROS1 -->
+
+<launch>
+    <include file="$(find-pkg-share ros2_kortex_vision)/launch/kinova_vision_color_only.launch.py"/>
+  
+    <!-- Static transformations -->
+    <node pkg="tf2_ros"
+        exec="static_transform_publisher"
+        name="camera_color_tf_publisher"
+        args="0 0 0 0 0 0 $(arg camera_link_frame_id) $(arg color_frame_id)" />
+
+    <!-- Processing modules configuration-->
+    <arg name="rgb_processing"                  default="true"  />
+    <arg name="debayer_processing"              default="false" />
+    <arg name="ir_processing"                   default="false"/>
+    <arg name="depth_processing"                default="false" />
+    <arg name="depth_registered_processing"     default="false" />
+    <arg name="disparity_processing"            default="false" />
+    <arg name="disparity_registered_processing" default="false" />
+    <arg name="hw_registered_processing"        default="true" if="$(arg depth_registration)" />
+    <arg name="sw_registered_processing"        default="false" if="$(arg depth_registration)" />
+    <arg name="hw_registered_processing"        default="false" unless="$(arg depth_registration)" />
+    <arg name="sw_registered_processing"        default="true" unless="$(arg depth_registration)" />
+
+    <!-- Load standard constellation of processing nodelets -->
+    <include file="$(find rgbd_launch)/launch/includes/processing.launch.xml">
+      <arg name="manager"                         value="$(arg manager)" />
+      <arg name="rgb"                             value="$(arg rgb)" />
+      <arg name="depth"                           value="$(arg depth)" />
+      <arg name="respawn"                         value="$(arg respawn)" />
+      <arg name="rgb_processing"                  value="$(arg rgb_processing)" />
+      <arg name="debayer_processing"              value="$(arg debayer_processing)" />
+      <arg name="ir_processing"                   value="$(arg ir_processing)" />
+      <arg name="depth_processing"                value="$(arg depth_processing)" />
+      <arg name="depth_registered_processing"     value="$(arg depth_registered_processing)" />
+      <arg name="disparity_processing"            value="$(arg disparity_processing)" />
+      <arg name="disparity_registered_processing" value="$(arg disparity_registered_processing)" />
+      <arg name="hw_registered_processing"        value="$(arg hw_registered_processing)" />
+      <arg name="sw_registered_processing"        value="$(arg sw_registered_processing)" />
+    </include>
+
+
+</launch>
